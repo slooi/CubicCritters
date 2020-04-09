@@ -16,7 +16,6 @@ NeuralNetwork.prototype.build = function(nodesPerLayer){
 	// EG: [numberOfInputs, numberOfHidden1, numberOfHidden2, ... numberOfOutputs]
 	this.weights = []	// nodesPerLayer.length - 1
 	this.biases = []	// nodesPerLayer.length - 1
-	this.numOfLayers = nodesPerLayer.length	// 
 
 	// check
 	if(nodesPerLayer.length < 2){
@@ -24,7 +23,7 @@ NeuralNetwork.prototype.build = function(nodesPerLayer){
 	}
 
 	// populate weights
-	for(let i=0;i<this.numOfLayers-1;i++){
+	for(let i=0;i<nodesPerLayer.length-1;i++){
 		this.weights[i] = mCreate(nodesPerLayer[i+1],nodesPerLayer[i],1)
 		this.biases[i] = mCreate(nodesPerLayer[i+1],1,1)
 	}
@@ -39,18 +38,18 @@ NeuralNetwork.prototype.feedforward = function(inputs){
 
 	// feedforward
 	let result = toVector(inputs)	// convert from 1D => 2D
-	for(let i=0;i<this.numOfLayers-1;i++){
-		console.log('i=',i)
+	for(let i=0;i<this.weights.length;i++){
 		result = mMulti(this.weights[i],result)
-		console.log('mMulti',result)
 		result = mAdd(result,this.biases[i])
-		console.log('mAdd',result)
 		result = mSig(result)
-		console.log('mSig',result)
 	}
 	return result
 }
 
+
+NeuralNetwork.prototype.load = function(weights,biases){
+	
+}
 
 
 // TEST IF ONLY ONE LAYERR !@#!@#!@#
