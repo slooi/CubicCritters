@@ -48,7 +48,8 @@ NeuralNetwork.prototype.feedforward = function(inputs){
 
 
 NeuralNetwork.prototype.load = function(weights,biases){
-	
+	this.weights = weights
+	this.biases = biases
 }
 
 
