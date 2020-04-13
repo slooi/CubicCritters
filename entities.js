@@ -1,0 +1,49 @@
+console.log('loaded entities.js')
+
+
+
+//################
+// ENTITY HELPERS
+//################
+function addComponent(componentName){		//!@#!@#!@#!@#@! state => this.
+	// component initialise THEN add function to state
+	compInit(this,componentName)
+	this[componentName] = comps[componentName].update
+}
+function updateEntity(){
+	// exec all componentList
+	this.componentList.forEach(componentName=>{
+		this[componentName]()
+	})
+}
+function removeComponent(componentName){
+	compClean(this,componentName)	//!@#!@#!@# is THIS. neccessary
+}
+function addStats(entityStats){
+	Object.assign(this,entityStats)
+}
+//################
+// ENTITY
+//################
+function createEntity(componentList,entityStats){
+	const state = {
+		compVarsCount:{},	// stores component vars and their counts
+		componentList,		// list of component names
+		...entityStats,
+
+		// GENERAL FUNCTIONS
+		update:updateEntity,
+		add:addComponent,
+		remove:removeComponent,
+		addStats
+	}
+	
+
+	// SETUP
+	for(let i=0;i<componentList.length;i++){
+		addComponent.bind(state)(componentList[i])		//!@#!@# is this the only way?
+	}
+
+
+	return state
+}
