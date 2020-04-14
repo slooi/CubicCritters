@@ -9,6 +9,11 @@ function addComponent(componentName){		//!@#!@#!@#!@#@! state => this.
 	// component initialise THEN add function to state
 	compInit(this,componentName)
 	this[componentName] = comps[componentName].update
+
+	// add componentName to list if not yet there
+	if(this.componentList.indexOf(componentName) === -1){
+		this.componentList.push(componentName)
+	}
 }
 function updateEntity(){
 	// exec all componentList
@@ -47,3 +52,6 @@ function createEntity(componentList,entityStats){
 
 	return state
 }
+
+// What did I previously do to the VALUES when it's COUNT = 0?
+// Deletng the VALUE is a pain if I'm just going to be adding it back in

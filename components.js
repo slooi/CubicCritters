@@ -4,7 +4,7 @@ console.log('loaded components.js')
 //######################
 // COMPONENT HELPERS
 //######################
-function compInit(state,componentName){
+const compInit = function(state,componentName){
 
 	if(state[componentName] !== undefined){
 		throw new Error('ERROR: component: '+componentName+', already exists')
@@ -40,7 +40,7 @@ function compInit(state,componentName){
 }
 
 
-function compClean(state,componentName){
+const compClean = function(state,componentName){
 	// check
 	if(state[componentName] === undefined){
 		throw new Error("ERROR: can't clean undefined component: "+componentName)
