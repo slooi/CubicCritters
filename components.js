@@ -23,8 +23,8 @@ const compInit = function(state,componentName){
 		// Test if variable is EXCEPT
 		if(comps[componentName].except[dependent] === undefined){
 			// VALUE must already been set
-			if(state[dependent] === undefined){			
-				throw new Error('ERROR: dependent: '+dependent+' has NOT been set for state: '+JSON.stringify(state))
+			if(state[dependent] === undefined){
+				throw new Error(`ERROR: "${componentName}" dependent "${dependent}" NOT set.`)
 			}
 		}else{
 			// VALUE can preset
@@ -74,14 +74,14 @@ const compClean = function(state,componentName){
 const comps = {
 	mover: {
 		dependents:{
-			// check if these exist in entity
-			x:0,
-			y:0,
-			delX:0,
-			delY:0,
+			// check if these exist in entity. Values don't matter
+			x:null,
+			y:null,
+			delX:null,
+			delY:null,
 		},
 		except:{
-			// can preset, thus have to already exist
+			// can preset, thus have to already exist. Values MATTER
 			delX:0,
 			delY:0
 		},
@@ -90,6 +90,23 @@ const comps = {
 			this.y += this.delY
 		},
 	},
+	aiControlled:{
+		dependents:{
+			dir:0,
+			speed:0,
+			delX:0,
+			delY:0
+		},
+		except:{
+			delX:0,
+			delY:0
+		},
+		update: function(){
+			this.dir+=Math.PI*0.1
+			this.delX = Math.cos(this.dir)*this.speed
+			this.delY = Math.sin(this.dir)*this.speed
+		}
+	}
 
 	
 

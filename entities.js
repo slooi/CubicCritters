@@ -27,13 +27,17 @@ function removeComponent(componentName){
 function addStats(entityStats){
 	Object.assign(this,entityStats)
 }
+function getPos(){
+	return [this.x,this.y]
+}
+
 //################
 // ENTITY
 //################
 function createEntity(componentList,entityStats){
 	const state = {
 		compVarsCount:{},	// stores component vars and their counts
-		componentList,		// list of component names
+		componentList,		// list of component names. COMPONENT ORDER MATTERS
 		...entityStats,
 
 		// GENERAL FUNCTIONS
