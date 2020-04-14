@@ -102,7 +102,7 @@ const comps = {
 			delY:0
 		},
 		update: function(){
-			this.dir+=Math.PI*0.1
+			this.dir+=Math.random()-0.5
 			this.delX = Math.cos(this.dir)*this.speed
 			this.delY = Math.sin(this.dir)*this.speed
 		}

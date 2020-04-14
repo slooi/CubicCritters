@@ -65,10 +65,16 @@ gl.vertexAttribPointer(
 gl.enableVertexAttribArray(attribLocations.a_Position)
 
 // render
-gl.drawArrays(gl.POINTS,0,1)
-
+render(data)
 
 // FUNCTIONS
+function render(newData){
+	data = newData
+	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW)
+	gl.clear(gl.COLOR_BUFFER_BIT)
+	gl.drawArrays(gl.POINTS,0,data.length/2)
+}
+
 function buildShader(type,source){
 	const shader = gl.createShader(type)
 	gl.shaderSource(shader,source)

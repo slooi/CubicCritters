@@ -44,7 +44,8 @@ function createEntity(componentList,entityStats){
 		update:updateEntity,
 		add:addComponent,
 		remove:removeComponent,
-		addStats
+		addStats,
+		getPos
 	}
 	
 
