@@ -2,15 +2,20 @@ console.log('loaded main.js')
 
 
 let oldTime = -new Date()
-const fps = 60
-let critters = []
+let fps = 60
+let critterList = []
+// let foodList = []
 let critterPos = [] 
+let grid
+const halfW = canvas.width/2
+const halfH = canvas.height/2
+
 
 init()
 
 function init(){
-	for(let i=0;i<1000;i++){
-		critters[i] = createEntity(['aiControlled','mover'],{x:0,y:0,dir:0,speed:1})
+	for(let i=0;i<10000;i++){
+		critterList[i] = createEntity(['nnControlled','mover'],{x:halfW,y:halfH,dir:Math.random()*Math.PI*2,speed:1,nn:createNeuralNetwork()})
 	}
 
 	looper()
@@ -19,11 +24,22 @@ function init(){
 
 function eachFrame(){
 	critterPos = []	//!@#!@#
-	critters.forEach(critter=>{
+	critterList.forEach(critter=>{
 		critter.update()
 		critterPos.push(...critter.getPos())
 		// console.table(critterPos)
-	})	
+	})
+
+	// grid
+	grid = new Node(0,0,canvas.width,canvas.height,0)
+	outsidePoints = []
+	critterList.forEach(critter=>{
+		grid.addCheck(critter)
+	})
+	clearCanvas()
+	render2()
+
+	
 	render(critterPos)
 }
 

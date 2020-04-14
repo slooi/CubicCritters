@@ -106,6 +106,27 @@ const comps = {
 			this.delX = Math.cos(this.dir)*this.speed
 			this.delY = Math.sin(this.dir)*this.speed
 		}
+	},
+	nnControlled:{
+		dependents:{
+			delX:0,
+			delY:0,
+			speed:0,
+			dir:0,
+			nn:0	// neural network
+		},
+		except:{
+			delX:0,
+			delY:0
+		},
+		update: function(){
+			const nnResult = this.nn.feedforward([this.x,this.y])
+			// console.log('nnResult[0][0]',nnResult[0][0])
+			this.dir += (nnResult[0][0] - 0.5)*Math.PI/5
+			const speed = 1// this.speed*nnResult[1][0]
+			this.delX = Math.cos(this.dir)*speed
+			this.delY = Math.sin(this.dir)*speed
+		}
 	}
 
 	

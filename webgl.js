@@ -67,11 +67,43 @@ gl.enableVertexAttribArray(attribLocations.a_Position)
 // render
 render(data)
 
+
+
+
 // FUNCTIONS
+let data2 = []	// stores lines
+const thick = 2
+function line(x1,y1,x2,y2){
+	data2.push(
+		x1,	y1,
+		x1+thick,	y1+thick,
+		x2+thick,		y2+thick,
+		x1,		y1,
+		x2+thick,		y2+thick,
+		x2,		y2
+	)
+}
+
+function rect(x1,y1,x2,y2){
+	line(x1,y1,x2,y1)
+	line(x2,y1,x2,y2)
+	line(x2,y2,x1,y2)
+	line(x1,y2,x1,y1)
+}
+
+function clearCanvas(){
+	gl.clear(gl.COLOR_BUFFER_BIT)
+}
+
+function render2(){
+	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data2),gl.STATIC_DRAW)
+	gl.drawArrays(gl.TRIANGLES,0,data2.length/2)
+	data2=[]
+}
+
 function render(newData){
 	data = newData
 	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW)
-	gl.clear(gl.COLOR_BUFFER_BIT)
 	gl.drawArrays(gl.POINTS,0,data.length/2)
 }
 
