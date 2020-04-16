@@ -14,7 +14,7 @@ const halfH = canvas.height/2
 init()
 
 function init(){
-	for(let i=0;i<10;i++){
+	for(let i=0;i<3;i++){
 		critterList[i] = createEntity(['nnControlled','mover'],{x:halfW,y:halfH,dir:Math.random()*Math.PI*2,speed:1,nn:createNeuralNetwork()})
 	}
 
@@ -23,23 +23,26 @@ function init(){
 
 
 function eachFrame(){
+	clearData2()
 	critterPos = []	//!@#!@#
+
+
+	// grid
+	grid = new Node(0,0,canvas.width,canvas.height,0,null)
+	critterList.forEach(critter=>{
+		grid.addCheck(critter)
+	})
+
+	// critter
 	critterList.forEach(critter=>{
 		critter.update()
 		critterPos.push(...critter.getPos())
 		// console.table(critterPos)
 	})
 
-	// grid
-	grid = new Node(0,0,canvas.width,canvas.height,0,null)
-	outsidePoints = []
-	critterList.forEach(critter=>{
-		grid.addCheck(critter)
-	})
+	// render stuff
 	clearCanvas()
 	render2()
-
-	
 	render(critterPos)
 }
 

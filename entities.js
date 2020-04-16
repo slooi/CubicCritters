@@ -31,6 +31,7 @@ function getPos(){
 	return [this.x,this.y]
 }
 
+
 //################
 // ENTITY
 //################

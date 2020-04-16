@@ -120,7 +120,8 @@ const comps = {
 			delY:0
 		},
 		update: function(){
-			const nnResult = this.nn.feedforward([this.x,this.y])
+			// console.log(grid.radiusSearchInit(this,2))
+			const nnResult = this.nn.feedforward([Math.random(),Math.random()])
 			// console.log('nnResult[0][0]',nnResult[0][0])
 			this.dir += (nnResult[0][0] - 0.5)*Math.PI/5
 			const speed = 1// this.speed*nnResult[1][0]

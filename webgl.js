@@ -71,9 +71,27 @@ render(data)
 
 
 // FUNCTIONS
+function angline(x1,y1,x2,y2){
+	// angle line - can draw lines on angles
+	const dir = Math.atan2(y2-y1,x2-x1)
+	console.log(dir)
+	const s = Math.sin(dir)
+	const c = Math.cos(dir)
+
+	data2.push(
+		x1,y1,
+		x1+thick*s,y1+thick*c,
+		x2,y2,
+		x2,y2,
+		x1+thick*s,y1+thick*c,
+		x2+thick*s,y2+thick*c
+	)
+}
+
 let data2 = []	// stores lines
 const thick = 2
 function line(x1,y1,x2,y2){
+	// MUST not be 45 degree or else can't be seen
 	data2.push(
 		x1,	y1,
 		x1+thick,	y1+thick,
@@ -95,10 +113,13 @@ function clearCanvas(){
 	gl.clear(gl.COLOR_BUFFER_BIT)
 }
 
+function clearData2(){
+	data2=[]
+}
+
 function render2(){
 	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data2),gl.STATIC_DRAW)
 	gl.drawArrays(gl.TRIANGLES,0,data2.length/2)
-	data2=[]
 }
 
 function render(newData){

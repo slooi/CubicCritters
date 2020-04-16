@@ -25,6 +25,8 @@ class Node{
 
 Node.prototype.addCheck = function(obj){
 	// THIS IS THE ONE I WILL INTERFACE WITH
+	outsidePoints = []
+
 	if(this.pointInside(obj)){
 		this.add(obj)
 	}else{
@@ -117,21 +119,100 @@ Node.prototype.pointInside = function(obj){
 
 function collectPoints(arr,state){
 	arr.forEach(point=>{
-		const dis2 = dis2(state.x,state.y,point.x,point.y)
+		const neighbourDis2 = dis2(state.x,state.y,point.x,point.y)
 		// add point in ORDERED list
-		console.log('index',getIndex2(dis2,foundNeighbours,state))
-		foundNeighbours.splice(getIndex2(dis2,foundNeighbours,state),0,point)
-		if(dis2<nearestDis2){
+		console.log('index',getIndex2(neighbourDis2,foundNeighbours,state))
+		foundNeighbours.splice(getIndex2(neighbourDis2,foundNeighbours,state),0,point)
+		if(neighbourDis2<nearestDis2){
 			// update nearest
-			nearestDis2 = dis2
+			nearestDis2 = neighbourDis2		// NOT EVEN USEFUL
 			console.log('TRUE. ^ index should be 0')
 		}
 	})
 }
 
-Node.prototype.radiusSearch = function(){
+// radius = 50
+// radius *= 2
+/* 						100
+						200 */
+Node.prototype.radiusSearch = function(radius2,state){
+	// searches in a radius around the state.
+	// radius expands if can't find 'num' number of states
+	// afterwards add outsidePoints
 	
+	if(dis2PointToRect(state.x,state.y,this.x,this.y,this.x+this.w,this.y+this.h)<radius2){
+		if(this.tl === undefined){
+			if(this.searched === false){
+				// Haven't already searched
+
+				// Bottom node
+				collectPoints(this.points,state)
+	
+				// marked
+				searchedNodes.push(this)
+				this.searched = true
+			}
+		}else{
+			this.tl.radiusSearch(radius2,state)
+			this.tr.radiusSearch(radius2,state)
+			this.bl.radiusSearch(radius2,state)
+			this.br.radiusSearch(radius2,state)
+		}
+	}
+}
+
+Node.prototype.radiusSearchInit = function(state,num){
+	// THIS IS WHAT I WILL INTERFACE WITH
+
+	// init
+	clearSearched()
+	foundNeighbours = []
+	nearestDis2 = Infinity
+	let radius2 = (50**2)/2
+
+	while(foundNeighbours.length<num && radius2<(canvas.width+canvas.height)**2){
+		// until got min OR essentially search all of quadtree
+		radius2=(radius2**0.5*2)**2.5
+		console.log(radius2)
+		this.radiusSearch(radius2,state)
+	}
+	
+	collectPoints(outsidePoints,state)
+
+	
+	if(foundNeighbours.length >= num){
+		// found minimum number of neighbours
+		let lastNeighbourDis2 = dis2(state.x,state.y,foundNeighbours[num-1].x,foundNeighbours[num-1].y)
+		if(radius2>=lastNeighbourDis2){
+			// If searched more than the distance to 'num' closest
+			return foundNeighbours.slice(0,num)
+		}else{
+			while(lastNeighbourDis2>radius2){
+				radius2 = lastNeighbourDis2
+				this.radiusSearch(radius2,state)
+				lastNeighbourDis2 = dis2(state.x,state.y,foundNeighbours[num-1].x,foundNeighbours[num-1].y)
+			}
+			return foundNeighbours.slice(0,num)
+		}
+	}else{
+		// didn't find min num of neighbours
+		// !@#!@#!@#!@#
+		console.log("COULDN'T FIND ANY!!!!! D:")
+		return foundNeighbours.slice(0,num)
+	}
+
+
+
 }
 // foundNeighbours=[]
 // searchedNodes = []
 // nearestDis2 = Infinity
+
+
+function clearSearched(){
+	searchedNodes.forEach(node=>{
+		node.searched = false
+	})
+	searchedNodes = []
+	// searchedNodes = []
+}
