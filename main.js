@@ -14,7 +14,7 @@ const halfH = canvas.height/2
 init()
 
 function init(){
-	for(let i=0;i<10000;i++){
+	for(let i=0;i<10;i++){
 		critterList[i] = createEntity(['nnControlled','mover'],{x:halfW,y:halfH,dir:Math.random()*Math.PI*2,speed:1,nn:createNeuralNetwork()})
 	}
 
@@ -31,7 +31,7 @@ function eachFrame(){
 	})
 
 	// grid
-	grid = new Node(0,0,canvas.width,canvas.height,0)
+	grid = new Node(0,0,canvas.width,canvas.height,0,null)
 	outsidePoints = []
 	critterList.forEach(critter=>{
 		grid.addCheck(critter)
