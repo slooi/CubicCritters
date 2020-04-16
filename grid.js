@@ -117,7 +117,8 @@ Node.prototype.pointInside = function(obj){
 
 
 function collectPoints(arr,state,num){
-	arr.forEach(point=>{
+	for(let i=0;i<arr.length;i++){
+		const point = arr[i]
 		if(state!==point){
 			// if point not itself
 
@@ -133,7 +134,7 @@ function collectPoints(arr,state,num){
 				foundNeighbours.splice(idx,0,point)	
 			}
 		}
-	})
+	}
 }
 
 // radius = 50
