@@ -7,7 +7,6 @@ const quadConfig = {
 let outsidePoints = []
 let foundNeighbours = []
 let searchedNodes = []
-let nearestDis2 = Infinity
 
 class Node{
 	constructor(x,y,width,height,layer,parent){
@@ -119,14 +118,12 @@ Node.prototype.pointInside = function(obj){
 
 function collectPoints(arr,state){
 	arr.forEach(point=>{
-		const neighbourDis2 = dis2(state.x,state.y,point.x,point.y)
-		// add point in ORDERED list
-		console.log('index',getIndex2(neighbourDis2,foundNeighbours,state))
-		foundNeighbours.splice(getIndex2(neighbourDis2,foundNeighbours,state),0,point)
-		if(neighbourDis2<nearestDis2){
-			// update nearest
-			nearestDis2 = neighbourDis2		// NOT EVEN USEFUL
-			console.log('TRUE. ^ index should be 0')
+		if(state!==point){
+			// if point not itself
+
+			const neighbourDis2 = dis2(state.x,state.y,point.x,point.y)
+			// add point in ORDERED list
+			foundNeighbours.splice(getIndex2(neighbourDis2,foundNeighbours,state),0,point)	
 		}
 	})
 }
@@ -167,13 +164,10 @@ Node.prototype.radiusSearchInit = function(state,num){
 	// init
 	clearSearched()
 	foundNeighbours = []
-	nearestDis2 = Infinity
 	let radius2 = (50**2)/2
-
 	while(foundNeighbours.length<num && radius2<(canvas.width+canvas.height)**2){
 		// until got min OR essentially search all of quadtree
-		radius2=(radius2**0.5*2)**2.5
-		console.log(radius2)
+		radius2=(radius2**0.5*2)**2.5		//!@#!@#!@#!@#!@# code around here kinda abitrary
 		this.radiusSearch(radius2,state)
 	}
 	
@@ -204,9 +198,6 @@ Node.prototype.radiusSearchInit = function(state,num){
 
 
 }
-// foundNeighbours=[]
-// searchedNodes = []
-// nearestDis2 = Infinity
 
 
 function clearSearched(){

@@ -68,17 +68,13 @@ function dis2PointToRect(px,py,x1,y1,x2,y2){
 	const inX = px>=x1 && px<=x2
 	const inY = py>=y1 && py<=y2
 	if(inX && inY){
-		console.log('inside')
 		return 0
 	}else	if(inX){
-		console.log('above or below')
 		// If point lies within the bounds of ONE axis
 		return yMin*yMin
 	}else if (inY){
-		console.log('to left / right')
 		return xMin*xMin
 	}else{
-		console.log('angle')
 		// use distance2
 		return xMin**2+yMin**2
 		// return Math.sqrt(xMin**2+yMin**2)

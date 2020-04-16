@@ -2,7 +2,7 @@ console.log('loaded main.js')
 
 
 let oldTime = -new Date()
-let fps = 60
+let fps = 30
 let critterList = []
 // let foodList = []
 let critterPos = [] 
@@ -14,7 +14,7 @@ const halfH = canvas.height/2
 init()
 
 function init(){
-	for(let i=0;i<3;i++){
+	for(let i=0;i<50;i++){
 		critterList[i] = createEntity(['nnControlled','mover'],{x:halfW,y:halfH,dir:Math.random()*Math.PI*2,speed:1,nn:createNeuralNetwork()})
 	}
 
