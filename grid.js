@@ -107,136 +107,6 @@ Node.prototype.pointInside = function(obj){
 	}
 }
 
-Node.prototype.search2 = function(state){
-	/* 
-		searched = true
-		add to foundNeighbours
-		add in ORDER
-		when got 5 or more STOP
-
-		get the distance of the furthest from state, then search all nodes 
-		in that readius around state
-		when adding these new ones in,
-
-	*/
-
-	// get nearest distance of points
-
-	if(this.tl === undefined){
-		// bottom node
-		collectPoints(this.points,state)
-
-		// mark
-		this.searched = true
-		searchedNodes.push(this)
-	}else{
-		// has children nodes
-		if(!this.searched){
-			this.tl.search2(state)
-			this.tr.search2(state)
-			this.bl.search2(state)
-			this.br.search2(state)
-
-			// mark
-			this.searched = true
-			searchedNodes.push(this)
-		}else{
-			console.log('Already searched')
-		}
-	}
-}
-
-
-/* 
-node
-look at parent
-parent inspects children
-*/
-
-Node.prototype.search = function(state,num){
-	// search children
-	this.tl.search2(state)
-	this.tr.search2(state)
-	this.bl.search2(state)
-	this.br.search2(state)
-
-	while(foundNeighbours.length < 5 && this.parent !== null){
-		// propagate upwards
-		this.parent.search(state,num)
-	}
-}
-
-Node.prototype.nearestNeighbours = function(state,num,grid){
-	// I WILL INTERFACE WITH THIS
-
-	foundNeighbours=[]
-	searchedNodes = []
-	nearestDis2 = Infinity
-
-	// finds 'num' nearest neighbours from 'state'
-	// this.
-	if(state.node.length === undefined){
-		// is NODE
-		// search INSIDE then OUTSIDE, ALWAYS SEARCH OUTSIDE		//!@#!@#!@#
-
-		// SEARCH THIS NODE then go to parent!
-		// THEN LOOP OVER OUTSIDE
-		if(this.parent === null){
-			// no parents
-			// searcch everything
-			alert('fix this later 2!!!')
-		}else{
-			// Phase 1 search - find at least 5 points
-			this.parent.search(state,num)
-
-			// Phase 2 search - add outsidePoints
-			collectPoints(outsidePoints,state)
-
-			// Phase 3 search - search nodes in range dis(foundNeighbours[4]-state) from state
-			// top down approach
-			// MAY NOT HAVE 5 FOUND neighbours YET
-			// Keep 
-			grid.topDownSearch(state)
-
-			// May not have found 5 neighbours yet
-		}
-
-		clearSearchedNodes()
-		return foundNeighbours
-	}else{
-		// searcch everything
-		// is OUTSIDEPOINTS
-		alert('FIX THIS LATER')
-
-		// search outside THEN inside, ALWAYS SEARCH OUTSIDE		//!@#!@#!@#
-		// LOOP OVER ALL CRITTERS IN NODE AND OUTSIDE
-		foundNeighbours.push(...this.points)
-
-		clearSearchedNodes()
-		return foundNeighbours
-	}
-}
-
-// searches top down. 
-// 1) watch out: only have 3 found neighbours => already searched entire grid and off grid.
-// if foundNeighbours<5 => ALL nodes been Searched and nothing else to do
-// 2) foundNeighbours>=5 => SOME or ALL nodes been Searched 
-// GOAL: search all nodes within dis2(foundNeighbours[4]-state) from state
-Node.prototype.topDownSearch = function(state){
-	if(this.searched === false){
-		// hasn't been searched
-		if(this.tl === undefined){
-			// Bottom node
-			
-		}else{
-			this.tl = this.topDownSearch(state)
-			this.tr = this.topDownSearch(state)
-			this.bl = this.topDownSearch(state)
-			this.br = this.topDownSearch(state)
-		}
-	}
-}
-
 ///!@#!@#!@# WATCH OUT FOR OVERLAPPING POINTS
 // !@# maximum number of splits === 4
 // what happens if less than 5 critters?
@@ -259,9 +129,9 @@ function collectPoints(arr,state){
 	})
 }
 
-function clearSearchedNodes(){
-	searchedNodes.forEach(node=>{
-		node.searched = false
-	})
-	// searchedNodes = []   Cleared on init
+Node.prototype.radiusSearch = function(){
+	
 }
+// foundNeighbours=[]
+// searchedNodes = []
+// nearestDis2 = Infinity
