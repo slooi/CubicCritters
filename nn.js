@@ -2,7 +2,7 @@ console.log('loaded nn.js')
 
 function createNeuralNetwork(){
 	const nn = new NeuralNetwork()
-	nn.build([2,2])
+	nn.build([2,8,10,2])
 	return nn
 }
 

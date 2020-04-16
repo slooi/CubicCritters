@@ -121,11 +121,11 @@ const comps = {
 		},
 		update: function(){
 			// console.log(grid.radiusSearchInit(this,3))
-			grid.radiusSearchInit(this,3)
+			grid.radiusSearchInit(this,5)
 			const nnResult = this.nn.feedforward([Math.random(),Math.random()])
 			// console.log('nnResult[0][0]',nnResult[0][0])
 			this.dir += (nnResult[0][0] - 0.5)*Math.PI/5
-			const speed = 1// this.speed*nnResult[1][0]
+			const speed = 5// this.speed*nnResult[1][0]
 			this.delX = Math.cos(this.dir)*speed
 			this.delY = Math.sin(this.dir)*speed
 		}
